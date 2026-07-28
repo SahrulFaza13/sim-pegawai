@@ -31,7 +31,8 @@ class dashboardController extends Controller
         );
 
         $jumlahUsia = collect(config('pegawai.kelompok_usia'))
-            ->mapWithKeys(fn (string $label)=> [$label => 0]);
+            ->mapWithKeys(fn (string $label)=> [$label => 0])
+            ->toArray();
 
         foreach ($pegawai as $item) {
             $label = $this->penentuKelompokUsia($item->tanggal_lahir->age);
@@ -60,7 +61,7 @@ class dashboardController extends Controller
                 $nilai = $item->{$atribut};
 
                 if ($hasil->has($nilai)) {
-                    $hasil[$nilai]++;
+                    $hasil= $pegawai->countBy($atribut);
                 }
             }
 
