@@ -29,10 +29,10 @@
                 ])>
                     Dashboard
                 </a>
-                <a href="{{ route('dashboard') }}" @class([
+                <a href="{{ route('pegawai.index') }}" @class([
                     'rounded-lg px-4 py-3 text-sm font-medium transition',
-                    'bg-indigo-500 text-white' => request()->routeIs('dashboard'),
-                    'text-slate-300 hover:bg-slate-800 hover:text-white' => !request()->routeIs('dashboard'),
+                    'bg-indigo-500 text-white' => request()->routeIs('pegawai.*'),
+                    'text-slate-300 hover:bg-slate-800 hover:text-white' => !request()->routeIs('pegawai.*'),
                 ])>
                     Data Pegawai
                 </a>

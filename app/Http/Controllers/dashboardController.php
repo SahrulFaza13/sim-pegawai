@@ -41,11 +41,11 @@ class dashboardController extends Controller
 
         return view('dashboard', [
             'totalPegawai' => $pegawai->count(),
-            'totalLakilaki' => $jumlahJenisKelamin->get('Laki-laki', 0),
-            'totalPerempuan' => $jumlahJenisKelamin->get('Perempuan', 0),
+            'totalLakilaki' => $jumlahJenisKelamin->values()->get(0, 0),
+            'totalPerempuan' => $jumlahJenisKelamin->values()->get(1, 0),
             'genderChart' => $this->formatChart($jumlahJenisKelamin),
             'educationChart' => $this->formatChart($jumlahPendidikan),
-            'ageChart' => $this->formatChart($jumlahUsia),
+            'ageChart' => $this->formatChart(collect($jumlahUsia)),
         ]);
 
     }
@@ -58,10 +58,13 @@ class dashboardController extends Controller
                 ->mapWithKeys(fn(string $label) => [$label => 0]);
 
             foreach ($pegawai as $item) {
-                $nilai = $item->{$atribut};
+                $nilai =(string) $item->{$atribut};
+                $matchedKey = $hasil->keys()->first(
+                    fn($key) => strtolower(trim($key)) === strtolower(trim($nilai))
+                );
 
-                if ($hasil->has($nilai)) {
-                    $hasil= $pegawai->countBy($atribut);
+                if ($matchedKey) {
+                    $hasil->put($matchedKey, $hasil->get($matchedKey)+1);
                 }
             }
 

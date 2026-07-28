@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+
 class pegawaiController extends Controller
 {
     /**
@@ -84,14 +85,16 @@ class pegawaiController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @throws \Exception
      */
-    public function destroy(Pegawai $pegawai):RedirectResponse
+    public function destroy(Pegawai $pegawai): RedirectResponse
     {
         $namaPegawai = $pegawai->nama_pegawai;
 
         $pegawai->delete();
 
         return to_route('pegawai.index')
-            ->with('sucess', "Data {$namaPegawai} berhasil dihapus.");
+            ->with('success', "Data {$namaPegawai} berhasil dihapus.");
     }
 }
